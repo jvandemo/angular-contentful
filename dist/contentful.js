@@ -10,7 +10,7 @@
   /**
    * Contentful service provider
    */
-  function contentfulProvider(){
+  function contentfulProvider() {
 
     // Default options
     var options = {
@@ -31,7 +31,6 @@
       return this;
     };
 
-
     this.$get = contentfulFactory;
 
     /**
@@ -39,7 +38,7 @@
      *
      * @returns {contentfulProvider.Contentful}
      */
-    function contentfulFactory($http, $q){
+    function contentfulFactory($http, $q) {
       return new Contentful($http, $q, options);
     }
 
@@ -57,11 +56,11 @@
       this._$q = $q;
       this.options = options;
 
-      if(typeof $http.get !== 'function'){
+      if (typeof $http.get !== 'function') {
         throw new Error('The contentful service needs a valid http service to work with');
       }
 
-      if(typeof $q.when !== 'function'){
+      if (typeof $q.when !== 'function') {
         throw new Error('The contentful service needs a valid promise service to work with');
       }
     }
@@ -73,7 +72,7 @@
      * @param {object} config
      * @returns {promise}
      */
-    Contentful.prototype.request = function(path, config){
+    Contentful.prototype.request = function (path, config) {
 
       var url;
 
@@ -108,7 +107,7 @@
      * @param id
      * @returns {promise}
      */
-    Contentful.prototype.asset = function(id){
+    Contentful.prototype.asset = function (id) {
       return this.request('/assets/' + id);
     };
 
@@ -118,7 +117,7 @@
      * @param query
      * @returns {promise}
      */
-    Contentful.prototype.assets = function(query){
+    Contentful.prototype.assets = function (query) {
       return this.request('/assets', {
         params: {
           query: query
@@ -132,7 +131,7 @@
      * @param id
      * @returns {promise}
      */
-    Contentful.prototype.contentType = function(id){
+    Contentful.prototype.contentType = function (id) {
       return this.request('/content_types/' + id);
     };
 
@@ -142,7 +141,7 @@
      * @param query
      * @returns {promise}
      */
-    Contentful.prototype.contentTypes = function(query){
+    Contentful.prototype.contentTypes = function (query) {
       return this.request('/content_types', {
         params: {
           query: query
@@ -156,7 +155,7 @@
      * @param id
      * @returns {promise}
      */
-    Contentful.prototype.entry = function(id){
+    Contentful.prototype.entry = function (id) {
       return this.request('/entries/' + id);
     };
 
@@ -166,7 +165,7 @@
      * @param query
      * @returns {promise}
      */
-    Contentful.prototype.entries = function(query){
+    Contentful.prototype.entries = function (query) {
       return this.request('/entries', {
         params: {
           query: query
@@ -179,13 +178,11 @@
      *
      * @returns {promise}
      */
-    Contentful.prototype.space = function(){
+    Contentful.prototype.space = function () {
       return this.request('');
     };
 
   }
-
-
 
   // Export
   angular
