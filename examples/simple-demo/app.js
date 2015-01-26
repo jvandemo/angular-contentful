@@ -70,11 +70,6 @@
 
       });
 
-      function assignResponseToScope(response) {
-        $scope.response = reponse;
-      }
-
-
     });
 
 })();
