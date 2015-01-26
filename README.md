@@ -55,6 +55,7 @@ angular
   .module('yourApp')
   .controller('SomeCtrl', function(contentful){
     
+    // Get all entries
     contentful
       .entries()
       .then(
@@ -119,6 +120,10 @@ Get content types.
 ##### Arguments
 
 - **query** - {string|object} - Query to pass to API, optional
+
+##### Returns
+
+Promise.
 
 ### contentful.entry(id)
 
