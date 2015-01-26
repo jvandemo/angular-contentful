@@ -17,13 +17,19 @@ First install the module using bower:
 $ bower install angular-contentful
 ```
 
-the add the `contentful` module to the dependencies of your AngularJS application module:
+and add the library to your application:
+
+```xml
+<script type="text/javascript" charset="utf-8" src="bower_components/angular-contentful/dist/angular-contentful.min.js"></script>
+```
+
+Then add the `contentful` module to the dependencies of your AngularJS application module:
 
 ```javascript
 angular.module('yourApp', ['contentful']);
 ```
 
-and finally configure the `contentful` service in a config block using the provider:
+and configure the `contentful` service in a config block using the provider:
 
 ```javascript
 angular
