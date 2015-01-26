@@ -1,0 +1,29 @@
+<html ng-app="app">
+  <head>
+    <title>Simple demo application</title>
+    <script src="../../bower/angular/angular.js"></script>
+    <script src="../../dist/angular-contentful.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-controller="DemoCtrl">
+    <h1>Simple demo app</h1>
+    <p>This simple demo uses the following Contentful configuration:</p>
+    <ul>
+      <li>Space: cfexampleapi</li>
+      <li>Access token: b4c0n73n7fu1</li>
+    </ul>
+    <p>Status: <span class="ng-cloak" ng-hide="busy">Idle</span><span class="ng-cloak" ng-show="busy">Busy</span></p>
+    <p>Actions:
+      <select ng-model="action">
+        <option value="">Please select an action</option>
+        <option value="space">contentful.space()</option>
+        <option value="contentTypes">contentful.contentTypes()</option>
+        <option value="entry">contentful.entry('6KntaYXaHSyIw8M6eo26OK')</option>
+        <option value="entries">contentful.entries()</option>
+      </select>
+    </p>
+    <h3>Response</h3>
+    <pre class="ng-cloak" ng-hide="response">Please select an action from the dropdown above</pre>
+    <pre class="ng-cloak" ng-show="response">{{response | json}}</pre>
+  </body>
+</html>
