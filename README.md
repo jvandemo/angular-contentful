@@ -2,6 +2,8 @@
 
 AngularJS module to access the [Contentful](https://www.contentful.com) [content delivery API](https://www.contentful.com/developers/documentation/content-delivery-api/):
 
+[![Build Status](https://travis-ci.org/jvandemo/angular-contentful.svg?branch=master)](https://travis-ci.org/jvandemo/angular-contentful)
+
 - lightweight (< 2KB minified)
 - no external dependencies
 - uses the native AngularJS `$http` service to connect to the API
@@ -59,11 +61,81 @@ angular
 
 ## API
 
-#### contentful.asset(id)
+### contentful.asset(id)
+
+Get an asset.
 
 ##### Arguments
 
-- id: asset id, required
+- **id** - {string} - Asset id, required
+
+##### Returns
+
+Promise.
+
+### contentful.assets(query)
+
+Get assets.
+
+##### Arguments
+
+- **query** - {string|object} - Query to pass to API, optional
+
+##### Returns
+
+Promise.
+
+### contentful.contentType(id)
+
+Get a content type.
+
+##### Arguments
+
+- **id** - {string} - Content type id, required
+
+##### Returns
+
+Promise.
+
+### contentful.contentTypes(query)
+
+Get content types.
+
+##### Arguments
+
+- **query** - {string|object} - Query to pass to API, optional
+
+### contentful.entry(id)
+
+Get an entry.
+
+##### Arguments
+
+- **id** - {string} - Entry id, required
+
+##### Returns
+
+Promise.
+
+### contentful.entries(query)
+
+Get entries.
+
+##### Arguments
+
+- **query** - {string|object} - Query to pass to API, optional
+
+##### Returns
+
+Promise.
+
+### contentful.space()
+
+Get space.
+
+##### Arguments
+
+None.
 
 ##### Returns
 
@@ -122,3 +194,36 @@ which results in:
 - **NOT** having to include `contentful.js` and `ng-contentful.js`, saving you an expensive 100KB+ client side download when your application loads
 - less CPU cycles in the client by not having to convert promises
 
+## Contribute
+
+To update the build in the `dist` directory:
+
+```bash
+$ gulp
+```
+
+To run the unit tests using the src files:
+
+```bash
+$ gulp test-src
+```
+
+To run the unit tests using the unminified library:
+
+```bash
+$ gulp test-dist-concatenated
+```
+
+To run the unit tests using the minified library:
+
+```bash
+$ gulp test-dist-minified
+```
+
+## Change log
+
+### v0.1.0
+
+- Add contentful service
+- Add unit tests
+- Add initial documentation
