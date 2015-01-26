@@ -1,6 +1,6 @@
 'use strict';
 
-describe('', function() {
+describe('Contentful module', function() {
 
   var module;
 
