@@ -1,0 +1,23 @@
+{
+  "name": "contentful",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Jurgen Van de Moere",
+      "email": "jurgen.van.de.moere@gmail.com"
+    }
+  ],
+  "main": ["dist/contentful.js"],
+  "ignore": [
+    "src",
+    "test",
+    "Gruntfile.js",
+    "**/.*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": ">=1.2.0"
+  }
+}

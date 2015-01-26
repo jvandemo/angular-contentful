@@ -1,0 +1,28 @@
+{
+  "generator-angularjs-library": {
+    "props": {
+      "author": {
+        "name": "Jurgen Van de Moere",
+        "email": "jurgen.van.de.moere@gmail.com"
+      },
+      "libraryName": {
+        "original": "contentful",
+        "camelized": "contentful",
+        "dasherized": "contentful",
+        "slugified": "contentful",
+        "parts": [
+          "contentful"
+        ]
+      },
+      "includeModuleDirectives": true,
+      "includeModuleFilters": false,
+      "includeModuleServices": true,
+      "includeAngularModuleResource": false,
+      "includeAngularModuleCookies": false,
+      "includeAngularModuleSanitize": false,
+      "librarySrcDirectory": "src/contentful",
+      "libraryUnitTestDirectory": "test/unit/contentful",
+      "libraryUnitE2eDirectory": "test/e2e/contentful"
+    }
+  }
+}
