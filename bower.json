@@ -14,7 +14,7 @@
     "contentful",
     "contentful delivery api"
   ],
-  "main": ["dist/contentful.js"],
+  "main": ["dist/angular-contentful.js"],
   "ignore": [
     "src",
     "test",

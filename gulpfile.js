@@ -30,10 +30,10 @@ var sourceFiles = [
 gulp.task('build', function() {
   gulp.src(sourceFiles)
     .pipe(plumber())
-    .pipe(concat('contentful.js'))
+    .pipe(concat('angular-contentful.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(uglify())
-    .pipe(rename('contentful.min.js'))
+    .pipe(rename('angular-contentful.min.js'))
     .pipe(gulp.dest('./dist'))
 });
 
