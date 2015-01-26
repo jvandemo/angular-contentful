@@ -9,6 +9,10 @@ AngularJS module to access the [Contentful](https://www.contentful.com) [content
 - uses the native AngularJS `$http` service to connect to the API
 - returns native AngularJS `$q` promises
 
+## Demo
+
+There is working demo in the [examples](examples) directory.
+
 ## Usage
 
 First install the module using bower:
@@ -54,11 +58,16 @@ angular
     contentful
       .entries()
       .then(
-        function(entries){
+      
+        // Success handler
+        function(response){
+          var entries = response.data;
           console.log(entries);
         },
-        function(){
-          console.log('Oops, something went wrong');
+        
+        // Error handler
+        function(response){
+          console.log('Oops, error ' + response.status);
         }
       );
     
@@ -149,7 +158,7 @@ Promise.
 
 ## Promises
 
-All methods return an AngularJS HttpPromise.
+Similar to AngularJS HTTP requests, all methods return an original AngularJS HttpPromise.
 
 The `then` method takes 2 arguments: a success handler and an error handler.
 
@@ -162,9 +171,123 @@ is called with a destructured representation of the response with the following 
 - **config** – {Object} – The configuration object that was used to generate the request.
 - **statusText** – {string} – HTTP status text of the response.
 
-So the signature of both handlers looks like this:
+```javascript
+contentful
+  .entries()
+  .then(
+  
+    // Success handler
+    function(response){
+      var entries = response.data;
+      console.log(entries);
+    },
+    
+    // Error handler
+    function(response){
+      console.log('Oops, error ' + response.status);
+    }
+  );
+```
 
-`function(data, status, headers, config){}`
+You can also use the AngularJS shorthand `success` and `error` methods if you conveniently want the properties to be available as arguments:
+
+```javascript
+contentful
+  .entries()
+  
+  // Success handler
+  .success(function(data, status, headers, config){
+     var entries = data;
+     console.log(entries);
+  })
+  
+  // Error handler
+  .error(function(data, status, headers, config){
+    console.log('Oops, error ' + status);
+  });
+```
+
+#### Example response for successful request
+
+```javascript
+{
+  "data": {
+    "sys": {
+      "type": "Space",
+      "id": "cfexampleapi"
+    },
+    "name": "Contentful Example API",
+    "locales": [
+      {
+        "code": "en-US",
+        "default": true,
+        "name": "English"
+      },
+      {
+        "code": "tlh",
+        "default": false,
+        "name": "Klingon"
+      }
+    ]
+  },
+  "status": 200,
+  "config": {
+    "method": "GET",
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "headers": {
+      "Accept": "application/json, text/plain, */*"
+    },
+    "params": {
+      "access_token": "b4c0n73n7fu1"
+    },
+    "url": "https://cdn.contentful.com:443/spaces/cfexampleapi"
+  },
+  "statusText": "OK"
+}
+```
+
+#### Example response for error
+
+```javascript
+{
+  "data": {
+    "sys": {
+      "type": "Error",
+      "id": "NotFound"
+    },
+    "message": "The resource could not be found.",
+    "details": {
+      "sys": {
+        "type": "Space"
+      }
+    },
+    "requestId": "71a-1131131513"
+  },
+  "status": 404,
+  "config": {
+    "method": "GET",
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "headers": {
+      "Accept": "application/json, text/plain, */*"
+    },
+    "params": {
+      "access_token": "b4c0n73n7fu1"
+    },
+    "url": "https://cdn.contentful.com:443/spaces/cfexampleapiii"
+  },
+  "statusText": "Not Found"
+}
+```
 
 ## Why not use the official contentful.js?
 
@@ -228,8 +351,14 @@ $ gulp test-dist-minified
 
 ## Change log
 
+### v0.2.0
+
+- Added demo application
+- Added shorthand support for `success` and `error` handlers
+- Added documentation
+
 ### v0.1.0
 
-- Add contentful service
-- Add unit tests
-- Add initial documentation
+- Added contentful service
+- Added unit tests
+- Added initial documentation
