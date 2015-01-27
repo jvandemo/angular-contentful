@@ -48,7 +48,15 @@ angular
   });
 ```
  
-Now you can use the `contentful` service anywhere in your application:
+Now you can use one of the directives to fetch Contentful data right from within your markup:
+
+```xml
+<pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+  {{$contentfulEntry.entry | json}}
+</pre>
+```
+ 
+or you can use the `contentful` service anywhere in your application code:
 
 ```javascript
 angular
@@ -75,7 +83,46 @@ angular
   });
 ```
 
-## API
+## The directives
+
+The directives make it really easy to access contentful data from within your markup.
+
+### contentful-entry
+
+Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentful.entry` as soon as a response from Contentful is received.
+
+For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
+
+```xml
+<pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+  {{$contentfulEntry.entry | json}}
+</pre>
+```
+
+Or to display only one field of the entry:
+
+```xml
+<h1 contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+  Hi {{$contentfulEntry.entry.fields.name}}!
+</h1>
+```
+
+The `$contentful` controller is available in the child elements as well:
+
+```xml
+<article contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+  <section>
+    {{$contentfulEntry.entry.fields.sectionOne}}
+  </section>
+  <section>
+    {{$contentfulEntry.entry.fields.sectionTwo}}
+  </section>
+<article>
+```
+
+## The contentful service
+
+The `contentful` service can be injected anywhere in your application and exposes the following API:
 
 ### contentful.asset(id)
 
