@@ -19,6 +19,7 @@
     this.entry = null;
     this.entries = [];
 
+    // Passed value is required entry id
     if ($attrs.contentfulEntry) {
       contentful
         .entry($attrs.contentfulEntry)
@@ -27,7 +28,8 @@
         });
     }
 
-    if ($attrs.contentfulEntries) {
+    // Passed value is optional query
+    if ($attrs.hasOwnProperty('contentfulEntries')) {
       contentful
         .entries($attrs.contentfulEntries)
         .then(function (response) {
