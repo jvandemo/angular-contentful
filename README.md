@@ -133,7 +133,7 @@ For example, to fetch all entries in your space:
 Or specify a query string to filter the entries:
 
 ```xml
-<ul contentful-entries="content_type=dog&limit=10">
+<ul contentful-entries="content_type=dog">
   <li ng-repeat="dog in $contentfulEntries.entries.items">
     {{dog.fields.name}}
   </li>
