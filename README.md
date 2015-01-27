@@ -127,7 +127,7 @@ For example, to fetch all entries in your space:
   <li ng-repeat="entry in $contentfulEntries.entries">
     {{entry.fields.name}}
   </li>
-</pre>
+</ul>
 ```
 
 Or specify a query string to filter the entries:
@@ -137,7 +137,7 @@ Or specify a query string to filter the entries:
   <li ng-repeat="dog in $contentfulEntries.entries.items">
     {{dog.fields.name}}
   </li>
-</pre>
+</ul>
 ```
 
 The query string is passed to the contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
