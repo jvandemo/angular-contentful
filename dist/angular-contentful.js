@@ -26,6 +26,7 @@
     this.entry = null;
     this.entries = [];
 
+    // Passed value is required entry id
     if ($attrs.contentfulEntry) {
       contentful
         .entry($attrs.contentfulEntry)
@@ -34,7 +35,8 @@
         });
     }
 
-    if ($attrs.contentfulEntries) {
+    // Passed value is optional query
+    if ($attrs.hasOwnProperty('contentfulEntries')) {
       contentful
         .entries($attrs.contentfulEntries)
         .then(function (response) {
@@ -51,33 +53,6 @@
   angular
     .module('contentful')
     .controller('ContentfulDirectiveCtrl', ContentfulDirectiveCtrl);
-
-})();
-
-(function () {
-
-  /**
-   * Directive
-   *
-   * @returns {object} directive definition object
-   */
-  function contentfulEntryDirective() {
-
-    return {
-      restrict: 'EA',
-      controller: 'ContentfulDirectiveCtrl',
-      controllerAs: '$contentfulEntry'
-    };
-
-  }
-
-  // Inject directive dependencies
-  contentfulEntryDirective.$inject = [];
-
-  // Export
-  angular
-    .module('contentful')
-    .directive('contentfulEntry', contentfulEntryDirective);
 
 })();
 
@@ -264,5 +239,59 @@
   angular
     .module('contentful')
     .provider('contentful', contentfulProvider);
+
+})();
+
+(function () {
+
+  /**
+   * Directive
+   *
+   * @returns {object} directive definition object
+   */
+  function contentfulEntriesDirective() {
+
+    return {
+      restrict: 'EA',
+      controller: 'ContentfulDirectiveCtrl',
+      controllerAs: '$contentfulEntries'
+    };
+
+  }
+
+  // Inject directive dependencies
+  contentfulEntriesDirective.$inject = [];
+
+  // Export
+  angular
+    .module('contentful')
+    .directive('contentfulEntries', contentfulEntriesDirective);
+
+})();
+
+(function () {
+
+  /**
+   * Directive
+   *
+   * @returns {object} directive definition object
+   */
+  function contentfulEntryDirective() {
+
+    return {
+      restrict: 'EA',
+      controller: 'ContentfulDirectiveCtrl',
+      controllerAs: '$contentfulEntry'
+    };
+
+  }
+
+  // Inject directive dependencies
+  contentfulEntryDirective.$inject = [];
+
+  // Export
+  angular
+    .module('contentful')
+    .directive('contentfulEntry', contentfulEntryDirective);
 
 })();
