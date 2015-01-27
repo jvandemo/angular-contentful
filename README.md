@@ -4,14 +4,14 @@ AngularJS module to access the [Contentful](https://www.contentful.com) [content
 
 [![Build Status](https://travis-ci.org/jvandemo/angular-contentful.svg?branch=master)](https://travis-ci.org/jvandemo/angular-contentful)
 
-- lightweight (< 2KB minified)
+- lightweight (< 3KB minified)
 - no external dependencies
 - uses the native AngularJS `$http` service to connect to the API
 - returns native AngularJS `$q` promises
 
 ## Demo
 
-There is working demo in the [examples](examples) directory.
+There are working demo's available in the [examples](examples) directory.
 
 ## Usage
 
@@ -83,11 +83,7 @@ angular
   });
 ```
 
-## The directives
-
-The directives make it really easy to access contentful data from within your markup.
-
-### contentful-entry
+## The contentful-entry directive
 
 Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentful.entry` as soon as a response from Contentful is received.
 
@@ -119,6 +115,32 @@ The `$contentful` controller is available in the child elements as well:
   </section>
 <article>
 ```
+
+## The contentful-entries directive
+
+Fetches multiple contentful entries asynchronously in the background and makes them available in your child markup as `$contentfulEntries.entries` as soon as a response from Contentful is received.
+
+For example, to fetch all entries in your space:
+
+```xml
+<ul contentful-entries>
+  <li ng-repeat="entry in $contentfulEntries.entries">
+    {{entry.fields.name}}
+  </li>
+</pre>
+```
+
+Or specify a query string to filter the entries:
+
+```xml
+<ul contentful-entries="content_type=dog">
+  <li ng-repeat="entry in $contentfulEntries.entries">
+    {{entry.fields.name}}
+  </li>
+</pre>
+```
+
+The query string is passed to the contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
 
 ## The contentful service
 
@@ -402,6 +424,12 @@ $ gulp test-dist-minified
 ```
 
 ## Change log
+
+### v0.4.0
+
+- Added contentfulEntries directive
+- Added additional unit tests
+- Updated documentation
 
 ### v0.3.0
 
