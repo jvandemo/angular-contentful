@@ -1,0 +1,17 @@
+<html ng-app="app">
+  <head>
+    <title>Simple demo application</title>
+    <script src="../../bower/angular/angular.js"></script>
+    <script src="../../dist/angular-contentful.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <h1>Directives demo</h1>
+    <p>This simple demo uses the following Contentful configuration:</p>
+    <ul>
+      <li>Space: cfexampleapi</li>
+      <li>Access token: b4c0n73n7fu1</li>
+    </ul>
+    <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">{{$contentfulEntry.entry | json}}</pre>
+  </body>
+</html>
