@@ -124,7 +124,7 @@ For example, to fetch all entries in your space:
 
 ```xml
 <ul contentful-entries>
-  <li ng-repeat="entry in $contentfulEntries.entries">
+  <li ng-repeat="entry in $contentfulEntries.entries.items">
     {{entry.fields.name}}
   </li>
 </ul>
