@@ -403,6 +403,12 @@ $ gulp test-dist-minified
 
 ## Change log
 
+### v0.3.0
+
+- Added contentfulEntry directive
+- Added additional unit tests
+- Updated documentation
+
 ### v0.2.0
 
 - Added demo application
