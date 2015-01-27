@@ -85,7 +85,7 @@ angular
 
 ## The contentful-entry directive
 
-Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentful.entry` as soon as a response from Contentful is received.
+Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentfulEntry.entry` as soon as a response from Contentful is received.
 
 For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
 
@@ -103,7 +103,7 @@ Or to display only one field of the entry:
 </h1>
 ```
 
-The `$contentful` controller is available in the child elements as well:
+The `$contentfulEntry` controller is available in the child elements as well:
 
 ```xml
 <article contentful-entry="6KntaYXaHSyIw8M6eo26OK">
