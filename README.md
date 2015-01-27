@@ -134,8 +134,8 @@ Or specify a query string to filter the entries:
 
 ```xml
 <ul contentful-entries="content_type=dog">
-  <li ng-repeat="entry in $contentfulEntries.entries">
-    {{entry.fields.name}}
+  <li ng-repeat="dog in $contentfulEntries.entries.items">
+    {{dog.fields.name}}
   </li>
 </pre>
 ```

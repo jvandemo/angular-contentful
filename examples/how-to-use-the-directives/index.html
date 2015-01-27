@@ -13,7 +13,11 @@
       <li>Access token: b4c0n73n7fu1</li>
     </ul>
     <h2>Get all dogs</h2>
-    <pre contentful-entries="content_type=dog">{{$contentfulEntries.entries | json}}</pre>
+    <ul contentful-entries="content_type=dog">
+      <li ng-repeat="dog in $contentfulEntries.entries.items">
+        {{dog.fields.name}}
+      </li>
+    </ul>
     <h2>Get one entry</h2>
     <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">{{$contentfulEntry.entry | json}}</pre>
     <h2>Get all entries</h2>
