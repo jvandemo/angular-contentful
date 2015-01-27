@@ -43,12 +43,12 @@ describe('contentfulEntries directive', function () {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('should perform a request to the correct API endpoint when no query is passed', function () {
+  it('should perform a request to the correct API endpoint when no querystring is passed', function () {
 
     var markup = '<div contentful-entries><div>';
 
     $httpBackend
-      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=')
+      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')
       .respond(200, '');
 
     var element = $compile(markup)($rootScope);
@@ -56,13 +56,13 @@ describe('contentfulEntries directive', function () {
     $httpBackend.flush();
   });
 
-  it('should perform a request to the correct API endpoint when query is passed', function () {
+  it('should perform a request to the correct API endpoint when invalid querystring is passed', function () {
 
-    var query = 'customQuery';
-    var markup = '<div contentful-entries="' + query + '">{{$contentfulEntries.entries}}<div>';
+    var querystring = 'customQuery';
+    var markup = '<div contentful-entries="' + querystring + '">{{$contentfulEntries.entries}}<div>';
 
     $httpBackend
-      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=' + query)
+      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')
       .respond(200, 'fake-response');
 
     var element = $compile(markup)($rootScope);
@@ -70,13 +70,26 @@ describe('contentfulEntries directive', function () {
     $httpBackend.flush();
   });
 
-  it('should make the entry available as $contentfulEntries.entry', function () {
+  it('should perform a request to the correct API endpoint when valid querystring is passed', function () {
 
-    var query = 'customQuery';
-    var markup = '<div contentful-entries="' + query + '">{{$contentfulEntries.entries}}<div>';
+    var querystring = 'query=test';
+    var markup = '<div contentful-entries="' + querystring + '">{{$contentfulEntries.entries}}<div>';
 
     $httpBackend
-      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=' + query)
+      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=test')
+      .respond(200, 'fake-response');
+
+    var element = $compile(markup)($rootScope);
+    $rootScope.$digest();
+    $httpBackend.flush();
+  });
+
+  it('should make the entry available as $contentfulEntries.entries', function () {
+
+    var markup = '<div contentful-entries>{{$contentfulEntries.entries}}<div>';
+
+    $httpBackend
+      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')
       .respond(200, 'fake-response');
 
     var element = $compile(markup)($rootScope);
