@@ -59,6 +59,62 @@
 (function () {
 
   /**
+   * Directive
+   *
+   * @returns {object} directive definition object
+   */
+  function contentfulEntriesDirective() {
+
+    return {
+      restrict: 'EA',
+      scope: true,
+      controller: 'ContentfulDirectiveCtrl',
+      controllerAs: '$contentfulEntries'
+    };
+
+  }
+
+  // Inject directive dependencies
+  contentfulEntriesDirective.$inject = [];
+
+  // Export
+  angular
+    .module('contentful')
+    .directive('contentfulEntries', contentfulEntriesDirective);
+
+})();
+
+(function () {
+
+  /**
+   * Directive
+   *
+   * @returns {object} directive definition object
+   */
+  function contentfulEntryDirective() {
+
+    return {
+      restrict: 'EA',
+      scope: true,
+      controller: 'ContentfulDirectiveCtrl',
+      controllerAs: '$contentfulEntry'
+    };
+
+  }
+
+  // Inject directive dependencies
+  contentfulEntryDirective.$inject = [];
+
+  // Export
+  angular
+    .module('contentful')
+    .directive('contentfulEntry', contentfulEntryDirective);
+
+})();
+
+(function () {
+
+  /**
    * Contentful service provider
    */
   function contentfulProvider() {
@@ -126,6 +182,7 @@
     Contentful.prototype.request = function (path, config) {
 
       var url;
+      var nonEmptyParams = {};
 
       // Make sure config is valid
       config = config || {};
@@ -168,12 +225,8 @@
      * @param query
      * @returns {promise}
      */
-    Contentful.prototype.assets = function (query) {
-      return this.request('/assets', {
-        params: {
-          query: query
-        }
-      });
+    Contentful.prototype.assets = function (querystring) {
+      return this.request('/assets', configifyParams(paramifyQuerystring(querystring)));
     };
 
     /**
@@ -192,12 +245,8 @@
      * @param query
      * @returns {promise}
      */
-    Contentful.prototype.contentTypes = function (query) {
-      return this.request('/content_types', {
-        params: {
-          query: query
-        }
-      });
+    Contentful.prototype.contentTypes = function (querystring) {
+      return this.request('/content_types', configifyParams(paramifyQuerystring(querystring)));
     };
 
     /**
@@ -216,12 +265,8 @@
      * @param query
      * @returns {promise}
      */
-    Contentful.prototype.entries = function (query) {
-      return this.request('/entries', {
-        params: {
-          query: query
-        }
-      });
+    Contentful.prototype.entries = function (querystring) {
+      return this.request('/entries', configifyParams(paramifyQuerystring(querystring)));
     };
 
     /**
@@ -235,63 +280,53 @@
 
   }
 
+  /**
+   * Create params object from querystring
+   *
+   * @param querystring
+   * @returns {object} params
+   */
+  function paramifyQuerystring(querystring){
+    var params = {};
+
+    if(!querystring){
+      return params;
+    }
+
+    // Split querystring in parts separated by '&'
+    var couples = querystring.toString().split('&');
+    angular.forEach(couples, function(couple){
+
+      // Split in parts separated by '='
+      var parts = couple.split('=');
+
+      // Only add if an actual value is passed
+      // to prevent empty params in the url
+      if(parts.length > 1){
+        params[parts[0]] = parts[1];
+      }
+    });
+    return params;
+  }
+
+  /**
+   * Create config object from params
+   *
+   * @param params
+   * @returns {object} config
+   */
+  function configifyParams(params){
+    if(!angular.isObject(params)){
+      params = {};
+    }
+    return {
+      params: params
+    };
+  }
+
   // Export
   angular
     .module('contentful')
     .provider('contentful', contentfulProvider);
-
-})();
-
-(function () {
-
-  /**
-   * Directive
-   *
-   * @returns {object} directive definition object
-   */
-  function contentfulEntriesDirective() {
-
-    return {
-      restrict: 'EA',
-      controller: 'ContentfulDirectiveCtrl',
-      controllerAs: '$contentfulEntries'
-    };
-
-  }
-
-  // Inject directive dependencies
-  contentfulEntriesDirective.$inject = [];
-
-  // Export
-  angular
-    .module('contentful')
-    .directive('contentfulEntries', contentfulEntriesDirective);
-
-})();
-
-(function () {
-
-  /**
-   * Directive
-   *
-   * @returns {object} directive definition object
-   */
-  function contentfulEntryDirective() {
-
-    return {
-      restrict: 'EA',
-      controller: 'ContentfulDirectiveCtrl',
-      controllerAs: '$contentfulEntry'
-    };
-
-  }
-
-  // Inject directive dependencies
-  contentfulEntryDirective.$inject = [];
-
-  // Export
-  angular
-    .module('contentful')
-    .directive('contentfulEntry', contentfulEntryDirective);
 
 })();
