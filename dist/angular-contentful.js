@@ -40,7 +40,13 @@
       contentful
         .entries($attrs.contentfulEntries)
         .then(function (response) {
-          self.entries = contentfulHelpers.resolveResponse(response.data);
+          var entries = {
+            limit: response.data.limit,
+            skip: response.data.skip,
+            total: response.data.total
+          };
+          entries.items = contentfulHelpers.resolveResponse(response.data);
+          self.entries = entries;
         });
     }
 
