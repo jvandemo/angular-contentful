@@ -425,6 +425,10 @@ $ gulp test-dist-minified
 
 ## Change log
 
+### v0.5.1
+
+- Update contentful-entries directive so it return response identical to contentful service method
+
 ### v0.5.0
 
 - Added support to automatically resolve links when multiple entries are returned
