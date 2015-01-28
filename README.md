@@ -140,13 +140,13 @@ Or specify a query string to filter the entries:
 
 The query string is passed to the contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
 
-Links are automatically resolved too, so you can easily access linked content like this:
+Links are automatically resolved too, so you can easily access linked content as embedded data like this:
 
 ```xml
 <ul contentful-entries="content_type=dog">
   <li ng-repeat="dog in $contentfulEntries.entries.items | orderBy:'dog.fields.name' ">
-    <h1>{{dog.fields.name}}</h2>
-    <img ng-src="dog.fields.image.fields.file.url" />
+    <h1>{{ dog.fields.name }}</h2>
+    <img ng-src="{{ dog.fields.image.fields.file.url }}" />
   </li>
 </ul>
 ```
