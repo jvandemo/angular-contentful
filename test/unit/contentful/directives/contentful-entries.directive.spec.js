@@ -12,6 +12,30 @@ describe('contentfulEntries directive', function () {
     secure: true
   };
 
+  var sampleResponse = {
+    items: [
+      {
+        someValue: 'wow',
+        someLink: {sys: {type: 'Link', linkType: 'Entry', id: 'suchId'}}
+      }
+    ],
+    includes: {
+      Entry: [
+        {sys: {type: 'Entry', id: 'suchId'}, very: 'doge'}
+      ]
+    }
+  };
+
+  var expectedOutcome = [
+    {
+      // Value stays the same
+      someValue: 'wow',
+
+      // Link gets replaced by the actual object from `includes.Entry`
+      someLink: {sys: {type: 'Entry', id: 'suchId'}, very: 'doge'}
+    }
+  ];
+
   // Expected host to check against when using custom options above
   var expectedHost = 'https://cdn.contentful.com:443';
 
@@ -90,13 +114,13 @@ describe('contentfulEntries directive', function () {
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')
-      .respond(200, 'fake-response');
+      .respond(200, sampleResponse);
 
     var element = $compile(markup)($rootScope);
     $rootScope.$digest();
     $httpBackend.flush();
 
-    expect(element.html()).to.contain('fake-response');
+    expect(element.html()).to.contain(JSON.stringify(expectedOutcome));
   });
 
 });
