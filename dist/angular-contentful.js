@@ -125,6 +125,12 @@
     function ContentfulHelpers() {
     }
 
+    /**
+     * Resolve a complete response
+     *
+     * @param response
+     * @returns {Array}
+     */
     ContentfulHelpers.prototype.resolveResponse = function resolveResponse(response) {
       var self = this;
       self.walkMutate(response, self.isLink, function (link) {
@@ -133,6 +139,12 @@
       return response.items || [];
     };
 
+    /**
+     * Check if object is a link
+     *
+     * @param {object}
+     * @returns {boolean}
+     */
     ContentfulHelpers.prototype.isLink = function isLink(object) {
       if (object && object.sys && object.sys.type && object.sys.type === 'Link') {
         return true;
@@ -140,6 +152,13 @@
       return false;
     };
 
+    /**
+     * Find and return a link in a response
+     *
+     * @param response
+     * @param link
+     * @returns {object|null} Link
+     */
     ContentfulHelpers.prototype.getLink = function getLink(response, link) {
       var self = this;
       var type = link.sys.linkType;
@@ -151,6 +170,13 @@
         response.includes && self.findLink(response.includes[type], pred);
     };
 
+    /**
+     * Helper method to find a link in an array
+     *
+     * @param {Array} arr - Array to search
+     * @param {function} pred - Predicate function
+     * @returns {object|null} Link
+     */
     ContentfulHelpers.prototype.findLink = function findLink(arr, pred) {
       var i;
       var link = null;
@@ -166,6 +192,14 @@
       return link;
     };
 
+    /**
+     * Walk a data structure and mutate properties that match the predicate function
+     *
+     * @param {object|array} input - Input data
+     * @param {function} pred - Prediction function
+     * @param {function} mutator - Mutator function
+     * @returns {*}
+     */
     ContentfulHelpers.prototype.walkMutate = function walkMutate(input, pred, mutator) {
       var self = this;
       if (pred(input)){
