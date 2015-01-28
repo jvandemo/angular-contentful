@@ -11,7 +11,7 @@
    * @param contentful
    * @constructor
    */
-  function ContentfulDirectiveCtrl($attrs, contentful) {
+  function ContentfulDirectiveCtrl($attrs, contentful, contentfulHelpers) {
 
     var self = this;
 
@@ -33,14 +33,14 @@
       contentful
         .entries($attrs.contentfulEntries)
         .then(function (response) {
-          self.entries = response.data;
+          self.entries = contentfulHelpers.resolveResponse(response.data);
         });
     }
 
   }
 
   // Inject controller dependencies
-  ContentfulDirectiveCtrl.$inject = ['$attrs', 'contentful'];
+  ContentfulDirectiveCtrl.$inject = ['$attrs', 'contentful', 'contentfulHelpers'];
 
   // Export
   angular
