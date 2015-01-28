@@ -425,6 +425,11 @@ $ gulp test-dist-minified
 
 ## Change log
 
+### v0.5.0
+
+- Added support to automatically resolve links when multiple entries are returned
+- Updated documentation
+
 ### v0.4.0
 
 - Added contentfulEntries directive
