@@ -84,7 +84,9 @@ angular
 
 ## The contentful-entry directive
 
-Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentfulEntry` as soon as a response from Contentful is received.
+Fetches a Contentful entry asynchronously in the background and makes it available in your child markup as `$contentfulEntry` as soon as a response from Contentful is received.
+
+Requires a Contentful entry id to be passed.
 
 For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
 
@@ -117,7 +119,9 @@ Or to display only one field of the entry:
 
 ## The contentful-entries directive
 
-Fetches multiple contentful entries asynchronously in the background and makes them available in your child markup as `$contentfulEntries` as soon as a response from Contentful is received.
+Fetches multiple Contentful entries asynchronously in the background and makes them available in your child markup as `$contentfulEntries` as soon as a response from Contentful is received.
+
+Takes an optional query string value to pass to the Contentful content delivery API.
 
 For example, to fetch all entries in your space:
 
@@ -139,7 +143,7 @@ Or specify a query string to filter the entries:
 </ul>
 ```
 
-The optional query string is passed to the contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
+The optional query string is passed to the Contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
 
 Links are automatically resolved too, so you can easily access linked content as embedded data like this:
 
@@ -277,7 +281,7 @@ contentful
 
 Angular-contentful automatically resolves linked content for you.
 
-If the contentful API response includes linked content such as linked entries or linked assets, they are
+If the Contentful API response includes linked content such as linked entries or linked assets, they are
 automatically attached to their parent content for maximum convenience.
 
 Suppose you have a collection of dogs that have an image linked to them, you can now access the image
