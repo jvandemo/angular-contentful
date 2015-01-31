@@ -86,7 +86,9 @@ angular
 
 Fetches a Contentful entry asynchronously in the background and makes it available in your child markup as `$contentfulEntry` as soon as a response from Contentful is received.
 
-Requires a Contentful entry id to be passed.
+Requires a Contentful entry id or a query string to be passed.
+
+#### Fetch an entry by id
 
 For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
 
@@ -115,6 +117,30 @@ Or to display only one field of the entry:
     {{ $contentfulEntry.fields.sectionTwo }}
   </section>
 <article>
+```
+
+#### Fetch an entry by query string
+
+Often you want to fetch an entry by a property other than `sys.id`.
+
+Therefore the directive also allows you to specify a query string instead of an id like this:
+
+```xml
+<h1 contentful-entry="content_type=dog&fields.slug=bob">
+  Hi {{ $contentfulEntry.fields.name }}!
+</h1>
+```
+
+**Notice**
+
+Behind the scenes all entries matching your query will be fetched and the first item will be assigned to `$contentfulEntry`.
+
+To reduce data traffic it is highly recommended to use a query string that results in only one entry or add a `limit=1` statement to your query like this:
+
+```xml
+<h1 contentful-entry="content_type=dog&order=fields.age&limit=1">
+  Hi {{ $contentfulEntry.fields.name }}!
+</h1>
 ```
 
 ## The contentful-entries directive
@@ -452,6 +478,10 @@ $ gulp test-dist-minified
 ```
 
 ## Change log
+
+### v1.1.0
+
+- Added query string support to contentful-entry directive
 
 ### v1.0.0
 
