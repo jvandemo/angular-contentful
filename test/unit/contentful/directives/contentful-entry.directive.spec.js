@@ -43,13 +43,27 @@ describe('contentfulEntry directive', function () {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('should perform a request to the correct API endpoint', function () {
+  it('should perform a request to the correct API endpoint when id is specified', function () {
 
     var id = 'customId';
     var markup = '<div contentful-entry="' + id + '"><div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries/' + id + '?access_token=dummyAccessToken')
+      .respond(200, 'fake-response');
+
+    var element = $compile(markup)($rootScope);
+    $rootScope.$digest();
+    $httpBackend.flush();
+  });
+
+  it('should perform a request to the correct API endpoint when query string is specified', function () {
+
+    var queryString = 'content_type=dog&fields.name=bob';
+    var markup = '<div contentful-entry="' + queryString + '"><div>';
+
+    $httpBackend
+      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&' + queryString)
       .respond(200, 'fake-response');
 
     var element = $compile(markup)($rootScope);
