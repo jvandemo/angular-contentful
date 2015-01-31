@@ -46,5 +46,45 @@ describe('contentfulHelpers service', function () {
 
   });
 
+  describe('isQueryString', function () {
+
+    it('should be a method', function () {
+      expect(contentfulHelpers.isQueryString).to.be.a('function');
+    });
+
+  });
+
+  describe('isQueryString(id)', function () {
+
+    it('should return false', function () {
+      expect(contentfulHelpers.isQueryString('31Eu8SwBxCEuSOIWEu8wUM')).to.equal(false);
+    });
+
+  });
+
+  describe('isQueryString(stringwith?)', function () {
+
+    it('should return false', function () {
+      expect(contentfulHelpers.isQueryString('stringwith?')).to.equal(true);
+    });
+
+  });
+
+  describe('isQueryString(stringwith=)', function () {
+
+    it('should return false', function () {
+      expect(contentfulHelpers.isQueryString('stringwith=')).to.equal(true);
+    });
+
+  });
+
+  describe('isQueryString(stringwith&)', function () {
+
+    it('should return false', function () {
+      expect(contentfulHelpers.isQueryString('stringwith&')).to.equal(true);
+    });
+
+  });
+
 
 });

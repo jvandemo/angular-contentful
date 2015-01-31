@@ -95,6 +95,28 @@
       return input;
     };
 
+
+    /**
+     * Check if a string is a query string
+     *
+     * @param {string} input
+     * @returns {boolean}
+     */
+    ContentfulHelpers.prototype.isQueryString = function isQueryString(input) {
+      if(input.toString().indexOf('=') > -1){
+        return true;
+      }
+      if(input.toString().indexOf('&') > -1){
+        return true;
+      }
+      if(input.toString().indexOf('?') > -1){
+        return true;
+      }
+      return false;
+    };
+
+
+
     return new ContentfulHelpers();
 
   }
