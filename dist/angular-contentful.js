@@ -18,13 +18,37 @@
    * @param contentful
    * @constructor
    */
-  function ContentfulDirectiveCtrl($scope, $attrs, contentful) {
+  function ContentfulDirectiveCtrl($scope, $attrs, contentful, contentfulHelpers) {
 
     // Passed value is required entry id
     if ($attrs.contentfulEntry) {
-      contentful
-        .entry($attrs.contentfulEntry)
-        .then(
+
+      // In case we detect a query string instead of simple id, we fetch the
+      // collection and return the first entry
+      if(contentfulHelpers.isQueryString($attrs.contentfulEntry)){
+
+        // Fetch entry by query
+        contentful
+          .entries($attrs.contentfulEntry)
+          .then(
+            function (response) {
+              var firstEntry = {};
+              if(response.data && response.data.items && response.data.items.length){
+                firstEntry = response.data.items[0];
+              }
+              $scope.$contentfulEntry = firstEntry;
+            },
+            function(){
+              $scope.$contentfulEntry = {};
+            }
+          );
+
+      } else {
+
+        // Fetch entry by id
+        contentful
+          .entry($attrs.contentfulEntry)
+          .then(
           function (response) {
             $scope.$contentfulEntry = response.data;
           },
@@ -32,6 +56,9 @@
             $scope.$contentfulEntry = {};
           }
         );
+
+      }
+
     }
 
     // Passed value is optional query
@@ -56,7 +83,7 @@
   }
 
   // Inject controller dependencies
-  ContentfulDirectiveCtrl.$inject = ['$scope', '$attrs', 'contentful'];
+  ContentfulDirectiveCtrl.$inject = ['$scope', '$attrs', 'contentful', 'contentfulHelpers'];
 
   // Export
   angular
@@ -215,6 +242,28 @@
       }
       return input;
     };
+
+
+    /**
+     * Check if a string is a query string
+     *
+     * @param {string} input
+     * @returns {boolean}
+     */
+    ContentfulHelpers.prototype.isQueryString = function isQueryString(input) {
+      if(input.toString().indexOf('=') > -1){
+        return true;
+      }
+      if(input.toString().indexOf('&') > -1){
+        return true;
+      }
+      if(input.toString().indexOf('?') > -1){
+        return true;
+      }
+      return false;
+    };
+
+
 
     return new ContentfulHelpers();
 
