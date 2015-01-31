@@ -67,7 +67,7 @@ describe('contentfulEntries directive', function () {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('should perform a request to the correct API endpoint when no querystring is passed', function () {
+  it('should perform a request to the correct API endpoint when no query string is passed', function () {
 
     var markup = '<div contentful-entries><div>';
 
@@ -80,10 +80,10 @@ describe('contentfulEntries directive', function () {
     $httpBackend.flush();
   });
 
-  it('should perform a request to the correct API endpoint when invalid querystring is passed', function () {
+  it('should perform a request to the correct API endpoint when invalid query string is passed', function () {
 
-    var querystring = 'customQuery';
-    var markup = '<div contentful-entries="' + querystring + '">{{$contentfulEntries.entries}}<div>';
+    var queryString = 'customQuery';
+    var markup = '<div contentful-entries="' + queryString + '">{{$contentfulEntries}}<div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')
@@ -94,10 +94,10 @@ describe('contentfulEntries directive', function () {
     $httpBackend.flush();
   });
 
-  it('should perform a request to the correct API endpoint when valid querystring is passed', function () {
+  it('should perform a request to the correct API endpoint when valid query string is passed', function () {
 
-    var querystring = 'query=test';
-    var markup = '<div contentful-entries="' + querystring + '">{{$contentfulEntries.entries}}<div>';
+    var queryString = 'query=test';
+    var markup = '<div contentful-entries="' + queryString + '">{{$contentfulEntries}}<div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=test')
@@ -108,9 +108,9 @@ describe('contentfulEntries directive', function () {
     $httpBackend.flush();
   });
 
-  it('should make the entry available as $contentfulEntries.entries', function () {
+  it('should make the entries available as $contentfulEntries', function () {
 
-    var markup = '<div contentful-entries>{{$contentfulEntries.entries}}<div>';
+    var markup = '<div contentful-entries>{{$contentfulEntries}}<div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')

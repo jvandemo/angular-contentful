@@ -46,7 +46,7 @@ describe('contentfulEntry directive', function () {
   it('should perform a request to the correct API endpoint', function () {
 
     var id = 'customId';
-    var markup = '<div contentful-entry="' + id + '">{{$contentfulEntry.entry}}<div>';
+    var markup = '<div contentful-entry="' + id + '"><div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries/' + id + '?access_token=dummyAccessToken')
@@ -57,10 +57,10 @@ describe('contentfulEntry directive', function () {
     $httpBackend.flush();
   });
 
-  it('should make the entry available as $contentfulEntry.entry', function () {
+  it('should make the entry available as $contentfulEntry', function () {
 
     var id = 'customId';
-    var markup = '<div contentful-entry="' + id + '">{{$contentfulEntry.entry}}<div>';
+    var markup = '<div contentful-entry="' + id + '">{{$contentfulEntry}}<div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries/' + id + '?access_token=dummyAccessToken')
