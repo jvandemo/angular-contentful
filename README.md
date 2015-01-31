@@ -1,11 +1,12 @@
 # AngularJS Contentful
 
-AngularJS module to access the [Contentful](https://www.contentful.com) [content delivery API](https://www.contentful.com/developers/documentation/content-delivery-api/):
+AngularJS module to easily access the [Contentful](https://www.contentful.com) [content delivery API](https://www.contentful.com/developers/documentation/content-delivery-api/):
 
 [![Build Status](https://travis-ci.org/jvandemo/angular-contentful.svg?branch=master)](https://travis-ci.org/jvandemo/angular-contentful)
 
 - lightweight (< 3KB minified)
 - no external dependencies
+- automatically resolves linked content in the response for maximum convenience
 - uses the native AngularJS `$http` service to connect to the API
 - returns native AngularJS `$q` promises
 
@@ -50,7 +51,7 @@ Now you can use one of the directives to fetch Contentful data right from within
 
 ```xml
 <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">
-  {{$contentfulEntry.entry | json}}
+  {{ $contentfulEntry | json }}
 </pre>
 ```
  
@@ -83,13 +84,13 @@ angular
 
 ## The contentful-entry directive
 
-Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentfulEntry.entry` as soon as a response from Contentful is received.
+Fetches a contentful entry asynchronously in the background and makes it available in your child markup as `$contentfulEntry` as soon as a response from Contentful is received.
 
 For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
 
 ```xml
 <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">
-  {{$contentfulEntry.entry | json}}
+  {{ $contentfulEntry | json }}
 </pre>
 ```
 
@@ -97,33 +98,33 @@ Or to display only one field of the entry:
 
 ```xml
 <h1 contentful-entry="6KntaYXaHSyIw8M6eo26OK">
-  Hi {{$contentfulEntry.entry.fields.name}}!
+  Hi {{ $contentfulEntry.fields.name }}!
 </h1>
 ```
 
-The `$contentfulEntry` controller is available in the child elements as well:
+`$contentfulEntry` is available in the child elements as well:
 
 ```xml
 <article contentful-entry="6KntaYXaHSyIw8M6eo26OK">
   <section>
-    {{$contentfulEntry.entry.fields.sectionOne}}
+    {{ $contentfulEntry.fields.sectionOne }}
   </section>
   <section>
-    {{$contentfulEntry.entry.fields.sectionTwo}}
+    {{ $contentfulEntry.fields.sectionTwo }}
   </section>
 <article>
 ```
 
 ## The contentful-entries directive
 
-Fetches multiple contentful entries asynchronously in the background and makes them available in your child markup as `$contentfulEntries.entries` as soon as a response from Contentful is received.
+Fetches multiple contentful entries asynchronously in the background and makes them available in your child markup as `$contentfulEntries` as soon as a response from Contentful is received.
 
 For example, to fetch all entries in your space:
 
 ```xml
 <ul contentful-entries>
-  <li ng-repeat="entry in $contentfulEntries.entries.items">
-    {{entry.fields.name}}
+  <li ng-repeat="entry in $contentfulEntries.items">
+    {{ entry.fields.name }}
   </li>
 </ul>
 ```
@@ -132,19 +133,19 @@ Or specify a query string to filter the entries:
 
 ```xml
 <ul contentful-entries="content_type=dog">
-  <li ng-repeat="dog in $contentfulEntries.entries.items">
-    {{dog.fields.name}}
+  <li ng-repeat="dog in $contentfulEntries.items">
+    {{ dog.fields.name }}
   </li>
 </ul>
 ```
 
-The query string is passed to the contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
+The optional query string is passed to the contentful API, so you can use all [supported filters](https://www.contentful.com/developers/documentation/content-management-api/#search-filter).
 
 Links are automatically resolved too, so you can easily access linked content as embedded data like this:
 
 ```xml
 <ul contentful-entries="content_type=dog">
-  <li ng-repeat="dog in $contentfulEntries.entries.items | orderBy:'dog.fields.name' ">
+  <li ng-repeat="dog in $contentfulEntries.items | orderBy:'dog.fields.name' ">
     <h1>{{ dog.fields.name }}</h2>
     <img ng-src="{{ dog.fields.image.fields.file.url }}" />
   </li>
@@ -167,13 +168,13 @@ Get an asset.
 
 Promise.
 
-### contentful.assets(query)
+### contentful.assets(queryString)
 
 Get assets.
 
 ##### Arguments
 
-- **query** - {string|object} - Query to pass to API, optional
+- **queryString** - {string} - Query string to pass to API, optional
 
 ##### Returns
 
@@ -191,13 +192,13 @@ Get a content type.
 
 Promise.
 
-### contentful.contentTypes(query)
+### contentful.contentTypes(queryString)
 
 Get content types.
 
 ##### Arguments
 
-- **query** - {string|object} - Query to pass to API, optional
+- **queryString** - {string} - Query string to pass to API, optional
 
 ##### Returns
 
@@ -215,13 +216,13 @@ Get an entry.
 
 Promise.
 
-### contentful.entries(query)
+### contentful.entries(queryString)
 
 Get entries.
 
 ##### Arguments
 
-- **query** - {string|object} - Query to pass to API, optional
+- **queryString** - {string} - Query string to pass to API, optional
 
 ##### Returns
 
@@ -241,18 +242,18 @@ Promise.
 
 ## Promises
 
-Similar to AngularJS HTTP requests, all methods return an original AngularJS HttpPromise.
-
-The `then` method takes 2 arguments: a success handler and an error handler.
+All methods return a promise.
 
 Depending on the reponse of the API, either the success handler or the error handler
 is called with a destructured representation of the response with the following properties:
 
-- **data** – {string|Object} – The response body transformed with the transform functions.
+- **data** – {object} – The response body transformed with the transform functions.
 - **status** – {number} – HTTP status code of the response.
 - **headers** – {function([headerName])} – Header getter function.
-- **config** – {Object} – The configuration object that was used to generate the request.
+- **config** – {object} – The configuration object that was used to generate the request.
 - **statusText** – {string} – HTTP status text of the response.
+
+The data property contains the Contentful data. The other properties are passed for convenience in case you need them.
 
 ```javascript
 contentful
@@ -272,25 +273,39 @@ contentful
   );
 ```
 
-You can also use the AngularJS shorthand `success` and `error` methods if you conveniently want the properties to be available as arguments:
+## Automatically resolved linked content
 
-```javascript
-contentful
-  .entries()
-  
-  // Success handler
-  .success(function(data, status, headers, config){
-     var entries = data;
-     console.log(entries);
-  })
-  
-  // Error handler
-  .error(function(data, status, headers, config){
-    console.log('Oops, error ' + status);
-  });
+Angular-contentful automatically resolves linked content for you.
+
+If the contentful API response includes linked content such as linked entries or linked assets, they are
+automatically attached to their parent content for maximum convenience.
+
+Suppose you have a collection of dogs that have an image linked to them, you can now access the image
+as a direct property instead of having to resolve the image manually:
+
+```xml
+<ul contentful-entries="content_type=dog">
+  <li ng-repeat="dog in $contentfulEntries.items | orderBy:'dog.fields.name' ">
+    <h1>{{ dog.fields.name }}</h2>
+    <img ng-src="{{ dog.fields.image.fields.file.url }}" />
+  </li>
+</ul>
 ```
 
-#### Example response for successful request
+#### Notice
+
+Resolving links hierarchically can cause circular links.
+
+Although this isn't harmful, it may hamper you from outputting the entire response e.g. using `{{ $contentfulEntries | json }}`.
+
+## Example raw Contentful responses
+
+These raw response examples give you an idea of what original
+Contentful responses look like.
+
+If you are interested in the details, please visit the [Contentful delivery API documentation](https://www.contentful.com/developers/documentation/content-delivery-api/).
+
+#### Example Contentful response for successful request
 
 ```javascript
 {
@@ -433,6 +448,14 @@ $ gulp test-dist-minified
 ```
 
 ## Change log
+
+### v1.0.0
+
+- Simplified service API so it always resolves links by default
+- Simplified contentful-entries directive API to make data available more intuitively using `$contentfulEntries` instead of `$contentfulEntries.entries`
+- Simplified contentful-entry directive API to make data available more intuitively using `$contentfulEntry` instead of `$contentfulEntry.entry`
+- Removed support for `success` and `error` shorthand methods in favor of more consistent API with `then`.
+- Updated documentation
 
 ### v0.5.1
 
