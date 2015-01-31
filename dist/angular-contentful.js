@@ -18,42 +18,45 @@
    * @param contentful
    * @constructor
    */
-  function ContentfulDirectiveCtrl($attrs, contentful, contentfulHelpers) {
-
-    var self = this;
-
-    // Placeholder
-    this.entry = null;
-    this.entries = [];
+  function ContentfulDirectiveCtrl($scope, $attrs, contentful) {
 
     // Passed value is required entry id
     if ($attrs.contentfulEntry) {
       contentful
         .entry($attrs.contentfulEntry)
-        .then(function (response) {
-          self.entry = response.data;
-        });
+        .then(
+          function (response) {
+            $scope.$contentfulEntry = response.data;
+          },
+          function(){
+            $scope.$contentfulEntry = {};
+          }
+        );
     }
 
     // Passed value is optional query
     if ($attrs.hasOwnProperty('contentfulEntries')) {
       contentful
         .entries($attrs.contentfulEntries)
-        .then(function (response) {
-          var entries = {
-            limit: response.data.limit,
-            skip: response.data.skip,
-            total: response.data.total
-          };
-          entries.items = contentfulHelpers.resolveResponse(response.data);
-          self.entries = entries;
-        });
+        .then(
+          function (response) {
+            $scope.$contentfulEntries = response.data;
+          },
+          function(){
+            $scope.$contentfulEntries = {
+              limit: 0,
+              skip: 0,
+              total: 0,
+              items: []
+            };
+          }
+        );
     }
 
   }
 
   // Inject controller dependencies
-  ContentfulDirectiveCtrl.$inject = ['$attrs', 'contentful', 'contentfulHelpers'];
+  ContentfulDirectiveCtrl.$inject = ['$scope', '$attrs', 'contentful'];
 
   // Export
   angular
@@ -74,8 +77,7 @@
     return {
       restrict: 'EA',
       scope: true,
-      controller: 'ContentfulDirectiveCtrl',
-      controllerAs: '$contentfulEntries'
+      controller: 'ContentfulDirectiveCtrl'
     };
 
   }
@@ -102,8 +104,7 @@
     return {
       restrict: 'EA',
       scope: true,
-      controller: 'ContentfulDirectiveCtrl',
-      controllerAs: '$contentfulEntry'
+      controller: 'ContentfulDirectiveCtrl'
     };
 
   }
@@ -259,22 +260,23 @@
      *
      * @returns {contentfulProvider.Contentful}
      */
-    function contentfulFactory($http, $q) {
-      return new Contentful($http, $q, options);
+    function contentfulFactory($http, $q, contentfulHelpers) {
+      return new Contentful($http, $q, contentfulHelpers, options);
     }
 
     // Inject dependencies in factory
-    contentfulFactory.$inject = ['$http', '$q'];
+    contentfulFactory.$inject = ['$http', '$q', 'contentfulHelpers'];
 
     /**
      * Contentful service constructor
      *
      * @constructor
      */
-    function Contentful($http, $q, options) {
+    function Contentful($http, $q, contentfulHelpers, options) {
 
       this._$http = $http;
       this._$q = $q;
+      this._contentfulHelpers = contentfulHelpers;
       this.options = options;
 
       if (typeof $http.get !== 'function') {
@@ -340,7 +342,9 @@
      * @returns {promise}
      */
     Contentful.prototype.assets = function (querystring) {
-      return this.request('/assets', configifyParams(paramifyQuerystring(querystring)));
+      return this.processResponseWithMultipleEntries(
+        this.request('/assets', configifyParams(paramifyQuerystring(querystring)))
+      );
     };
 
     /**
@@ -360,7 +364,9 @@
      * @returns {promise}
      */
     Contentful.prototype.contentTypes = function (querystring) {
-      return this.request('/content_types', configifyParams(paramifyQuerystring(querystring)));
+      return this.processResponseWithMultipleEntries(
+        this.request('/content_types', configifyParams(paramifyQuerystring(querystring)))
+      );
     };
 
     /**
@@ -380,7 +386,9 @@
      * @returns {promise}
      */
     Contentful.prototype.entries = function (querystring) {
-      return this.request('/entries', configifyParams(paramifyQuerystring(querystring)));
+      return this.processResponseWithMultipleEntries(
+        this.request('/entries', configifyParams(paramifyQuerystring(querystring)))
+      );
     };
 
     /**
@@ -390,6 +398,70 @@
      */
     Contentful.prototype.space = function () {
       return this.request('');
+    };
+
+    /**
+     * Process multiple incoming entries
+     *
+     * Resolves links in the response.data.
+     *
+     * @param promise
+     * @returns {*}
+     */
+    Contentful.prototype.processResponseWithMultipleEntries = function(promise){
+      var self = this;
+      if(promise && promise.then){
+        promise.then(
+
+          // Automatically resolve links on success
+          function(response){
+            var entries = {
+              limit: response.data.limit,
+              skip: response.data.skip,
+              total: response.data.total
+            };
+            entries.items = self._contentfulHelpers.resolveResponse(response.data);
+            response.data = entries;
+            return response;
+          },
+
+          // Forward error on failure
+          function(response){
+            return response;
+          }
+        );
+      }
+      return promise;
+    };
+
+    /**
+     * Process single incoming entry
+     *
+     * For now, this is just a noop but it exists so it makes
+     * sure a $q promise is returned with only then method
+     * (removing shorthand success and error methods)
+     * and to have single point of entry in case transformation
+     * is needed in the future.
+     *
+     * @param promise
+     * @returns {*}
+     */
+    Contentful.prototype.processResponseWithSingleEntry = function(promise){
+      if(promise && promise.then){
+        promise.then(
+
+          // Forward error on failure
+          function(response){
+            return response;
+          },
+
+          // Forward error on failure
+          function(response){
+            return response;
+          }
+        );
+      }
+      return promise;
     };
 
   }

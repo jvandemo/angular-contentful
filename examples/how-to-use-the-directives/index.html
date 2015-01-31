@@ -14,13 +14,20 @@
     </ul>
     <h2>Get all dogs</h2>
     <ul contentful-entries="content_type=dog&limit=10">
-      <li ng-repeat="dog in $contentfulEntries.entries.items">
-        {{dog.fields.name}}
+      <li ng-repeat="dog in $contentfulEntries.items">
+        {{ dog.fields.name }}
       </li>
     </ul>
     <h2>Get one entry</h2>
-    <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">{{$contentfulEntry.entry | json}}</pre>
+    <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">{{ $contentfulEntry | json }}</pre>
     <h2>Get all entries</h2>
-    <pre contentful-entries>{{$contentfulEntries.entries | json}}</pre>
+    <section contentful-entries="">
+      <p>{{ $contentfulEntries.total }} items found:</p>
+      <ul>
+        <li ng-repeat="entry in $contentfulEntries.items">
+          <pre>{{ entry.sys.id }}</pre>
+        </li>
+      </ul>
+    </section>
   </body>
 </html>

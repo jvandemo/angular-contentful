@@ -11,42 +11,45 @@
    * @param contentful
    * @constructor
    */
-  function ContentfulDirectiveCtrl($attrs, contentful, contentfulHelpers) {
-
-    var self = this;
-
-    // Placeholder
-    this.entry = null;
-    this.entries = [];
+  function ContentfulDirectiveCtrl($scope, $attrs, contentful) {
 
     // Passed value is required entry id
     if ($attrs.contentfulEntry) {
       contentful
         .entry($attrs.contentfulEntry)
-        .then(function (response) {
-          self.entry = response.data;
-        });
+        .then(
+          function (response) {
+            $scope.$contentfulEntry = response.data;
+          },
+          function(){
+            $scope.$contentfulEntry = {};
+          }
+        );
     }
 
     // Passed value is optional query
     if ($attrs.hasOwnProperty('contentfulEntries')) {
       contentful
         .entries($attrs.contentfulEntries)
-        .then(function (response) {
-          var entries = {
-            limit: response.data.limit,
-            skip: response.data.skip,
-            total: response.data.total
-          };
-          entries.items = contentfulHelpers.resolveResponse(response.data);
-          self.entries = entries;
-        });
+        .then(
+          function (response) {
+            $scope.$contentfulEntries = response.data;
+          },
+          function(){
+            $scope.$contentfulEntries = {
+              limit: 0,
+              skip: 0,
+              total: 0,
+              items: []
+            };
+          }
+        );
     }
 
   }
 
   // Inject controller dependencies
-  ContentfulDirectiveCtrl.$inject = ['$attrs', 'contentful', 'contentfulHelpers'];
+  ContentfulDirectiveCtrl.$inject = ['$scope', '$attrs', 'contentful'];
 
   // Export
   angular

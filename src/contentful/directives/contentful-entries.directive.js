@@ -10,8 +10,7 @@
     return {
       restrict: 'EA',
       scope: true,
-      controller: 'ContentfulDirectiveCtrl',
-      controllerAs: '$contentfulEntries'
+      controller: 'ContentfulDirectiveCtrl'
     };
 
   }
