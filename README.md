@@ -50,7 +50,7 @@ angular
 Now you can use one of the directives to fetch Contentful data right from within your markup:
 
 ```xml
-<pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+<pre contentful-entry="'6KntaYXaHSyIw8M6eo26OK'">
   {{ $contentfulEntry | json }}
 </pre>
 ```
