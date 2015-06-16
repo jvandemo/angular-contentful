@@ -93,7 +93,7 @@ Requires a Contentful entry id or a query string to be passed.
 For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
 
 ```xml
-<pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+<pre contentful-entry="'6KntaYXaHSyIw8M6eo26OK'">
   {{ $contentfulEntry | json }}
 </pre>
 ```
@@ -101,7 +101,7 @@ For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
 Or to display only one field of the entry:
 
 ```xml
-<h1 contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+<h1 contentful-entry="'6KntaYXaHSyIw8M6eo26OK'">
   Hi {{ $contentfulEntry.fields.name }}!
 </h1>
 ```
@@ -109,7 +109,7 @@ Or to display only one field of the entry:
 `$contentfulEntry` is available in the child elements as well:
 
 ```xml
-<article contentful-entry="6KntaYXaHSyIw8M6eo26OK">
+<article contentful-entry="'6KntaYXaHSyIw8M6eo26OK'">
   <section>
     {{ $contentfulEntry.fields.sectionOne }}
   </section>
@@ -119,6 +119,14 @@ Or to display only one field of the entry:
 <article>
 ```
 
+As of v2.0.0, Angular expressions are also supported:
+
+```xml
+<pre contentful-entry="entryId">
+  {{ $contentfulEntry | json }}
+</pre>
+```
+
 #### Fetch an entry by query string
 
 Often you want to fetch an entry by a property other than `sys.id`.
@@ -126,7 +134,7 @@ Often you want to fetch an entry by a property other than `sys.id`.
 Therefore the directive also allows you to specify a query string instead of an id like this:
 
 ```xml
-<h1 contentful-entry="content_type=dog&fields.slug=bob">
+<h1 contentful-entry="'content_type=dog&fields.slug=bob'">
   Hi {{ $contentfulEntry.fields.name }}!
 </h1>
 ```
@@ -138,7 +146,7 @@ Behind the scenes all entries matching your query will be fetched and the first 
 To reduce data traffic it is highly recommended to use a query string that results in only one entry or add a `limit=1` statement to your query like this:
 
 ```xml
-<h1 contentful-entry="content_type=dog&order=fields.age&limit=1">
+<h1 contentful-entry="'content_type=dog&order=fields.age&limit=1'">
   Hi {{ $contentfulEntry.fields.name }}!
 </h1>
 ```
@@ -162,7 +170,7 @@ For example, to fetch all entries in your space:
 Or specify a query string to filter the entries:
 
 ```xml
-<ul contentful-entries="content_type=dog">
+<ul contentful-entries="'content_type=dog'">
   <li ng-repeat="dog in $contentfulEntries.items">
     {{ dog.fields.name }}
   </li>
@@ -174,10 +182,20 @@ The optional query string is passed to the Contentful API, so you can use all [s
 Links are automatically resolved too, so you can easily access linked content as embedded data like this:
 
 ```xml
-<ul contentful-entries="content_type=dog">
+<ul contentful-entries="'content_type=dog'">
   <li ng-repeat="dog in $contentfulEntries.items | orderBy:'dog.fields.name' ">
     <h1>{{ dog.fields.name }}</h2>
     <img ng-src="{{ dog.fields.image.fields.file.url }}" />
+  </li>
+</ul>
+```
+
+As of v2.0.0, Angular expressions are also supported:
+
+```xml
+<ul contentful-entries="query">
+  <li ng-repeat="dog in $contentfulEntries.items">
+    {{ dog.fields.name }}
   </li>
 </ul>
 ```
@@ -478,6 +496,10 @@ $ gulp test-dist-minified
 ```
 
 ## Change log
+
+### v2.0.0
+
+- **BREAKING CHANGE**: Added support for specifying expressions in directive attributes
 
 ### v1.1.0
 

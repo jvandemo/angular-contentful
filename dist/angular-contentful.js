@@ -20,16 +20,20 @@
    */
   function ContentfulDirectiveCtrl($scope, $attrs, contentful, contentfulHelpers) {
 
+    var query;
+
     // Passed value is required entry id
     if ($attrs.contentfulEntry) {
 
+      query = $scope.$eval($attrs.contentfulEntry);
+
       // In case we detect a query string instead of simple id, we fetch the
       // collection and return the first entry
-      if(contentfulHelpers.isQueryString($attrs.contentfulEntry)){
+      if(contentfulHelpers.isQueryString(query)){
 
         // Fetch entry by query
         contentful
-          .entries($attrs.contentfulEntry)
+          .entries(query)
           .then(
             function (response) {
               var firstEntry = {};
@@ -47,7 +51,7 @@
 
         // Fetch entry by id
         contentful
-          .entry($attrs.contentfulEntry)
+          .entry(query)
           .then(
           function (response) {
             $scope.$contentfulEntry = response.data;
@@ -63,8 +67,11 @@
 
     // Passed value is optional query
     if ($attrs.hasOwnProperty('contentfulEntries')) {
+
+      query = $scope.$eval($attrs.contentfulEntries);
+
       contentful
-        .entries($attrs.contentfulEntries)
+        .entries(query)
         .then(
           function (response) {
             $scope.$contentfulEntries = response.data;
