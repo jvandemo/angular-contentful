@@ -83,7 +83,7 @@ describe('contentfulEntries directive', function () {
   it('should perform a request to the correct API endpoint when invalid query string is passed', function () {
 
     var queryString = 'customQuery';
-    var markup = '<div contentful-entries="' + queryString + '">{{$contentfulEntries}}<div>';
+    var markup = '<div contentful-entries="\'' + queryString + '\'">{{$contentfulEntries}}<div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken')
@@ -97,13 +97,29 @@ describe('contentfulEntries directive', function () {
   it('should perform a request to the correct API endpoint when valid query string is passed', function () {
 
     var queryString = 'query=test';
-    var markup = '<div contentful-entries="' + queryString + '">{{$contentfulEntries}}<div>';
+    var markup = '<div contentful-entries="\'' + queryString + '\'">{{$contentfulEntries}}<div>';
 
     $httpBackend
       .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=test')
       .respond(200, 'fake-response');
 
     var element = $compile(markup)($rootScope);
+    $rootScope.$digest();
+    $httpBackend.flush();
+  });
+
+  it('should perform a request to the correct API endpoint when an expression is passed', function () {
+
+    var queryString = 'query=test';
+    var $scope = $rootScope.$new();
+    $scope.query = queryString;
+    var markup = '<div contentful-entries="query">{{$contentfulEntries}}<div>';
+
+    $httpBackend
+      .expectGET(expectedHost + '/spaces/dummySpace/entries?access_token=dummyAccessToken&query=test')
+      .respond(200, 'fake-response');
+
+    var element = $compile(markup)($scope);
     $rootScope.$digest();
     $httpBackend.flush();
   });
