@@ -90,9 +90,15 @@ Requires a Contentful entry id or a query string to be passed.
 
 #### Fetch an entry by id
 
-For example, to display an entire entry with id `6KntaYXaHSyIw8M6eo26OK`:
+To display an entire entry with id *6KntaYXaHSyIw8M6eo26OK*:
 
 ```xml
+<!-- use an Angular expression -->
+<pre contentful-entry="entryId">
+  {{ $contentfulEntry | json }}
+</pre>
+
+<!-- use a literal string, notice the single quotes -->
 <pre contentful-entry="'6KntaYXaHSyIw8M6eo26OK'">
   {{ $contentfulEntry | json }}
 </pre>
@@ -117,14 +123,6 @@ Or to display only one field of the entry:
     {{ $contentfulEntry.fields.sectionTwo }}
   </section>
 <article>
-```
-
-As of v2.0.0, Angular expressions are also supported:
-
-```xml
-<pre contentful-entry="entryId">
-  {{ $contentfulEntry | json }}
-</pre>
 ```
 
 #### Fetch an entry by query string
@@ -170,6 +168,14 @@ For example, to fetch all entries in your space:
 Or specify a query string to filter the entries:
 
 ```xml
+<!-- use an Angular expression -->
+<ul contentful-entries="querystring">
+  <li ng-repeat="dog in $contentfulEntries.items">
+    {{ dog.fields.name }}
+  </li>
+</ul>
+
+<!-- use a literal string, notice the single quotes -->
 <ul contentful-entries="'content_type=dog'">
   <li ng-repeat="dog in $contentfulEntries.items">
     {{ dog.fields.name }}
@@ -186,16 +192,6 @@ Links are automatically resolved too, so you can easily access linked content as
   <li ng-repeat="dog in $contentfulEntries.items | orderBy:'dog.fields.name' ">
     <h1>{{ dog.fields.name }}</h2>
     <img ng-src="{{ dog.fields.image.fields.file.url }}" />
-  </li>
-</ul>
-```
-
-As of v2.0.0, Angular expressions are also supported:
-
-```xml
-<ul contentful-entries="query">
-  <li ng-repeat="dog in $contentfulEntries.items">
-    {{ dog.fields.name }}
   </li>
 </ul>
 ```
