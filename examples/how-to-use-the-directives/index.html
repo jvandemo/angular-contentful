@@ -13,13 +13,15 @@
       <li>Access token: b4c0n73n7fu1</li>
     </ul>
     <h2>Get all dogs</h2>
-    <ul contentful-entries="content_type=dog&limit=10">
+    <ul contentful-entries="'content_type=dog&limit=10'">
       <li ng-repeat="dog in $contentfulEntries.items">
         {{ dog.fields.name }}
       </li>
     </ul>
     <h2>Get one entry</h2>
-    <pre contentful-entry="6KntaYXaHSyIw8M6eo26OK">{{ $contentfulEntry | json }}</pre>
+    <pre contentful-entry="'6KntaYXaHSyIw8M6eo26OK'">{{ $contentfulEntry | json }}</pre>
+    <h2>Get one entry and resolve links</h2>
+    <pre contentful-entry="'sys.id=6KntaYXaHSyIw8M6eo26OK&include=3'">{{ $contentfulEntry | json }}</pre>
     <h2>Get all entries</h2>
     <section contentful-entries="">
       <p>{{ $contentfulEntries.total }} items found:</p>
