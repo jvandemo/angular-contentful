@@ -125,6 +125,16 @@ Or to display only one field of the entry:
 <article>
 ```
 
+To make Contentful resolve the linked content in the entry, use [include](https://www.contentful.com/developers/documentation/content-delivery-api/#search-link):
+
+```xml
+<pre contentful-entry="'sys.id=6KntaYXaHSyIw8M6eo26OK&include=3'">
+  {{ $contentfulEntry | json }}
+</pre>
+```
+
+to specify the number of levels of linked entries to resolve.
+
 #### Fetch an entry by query string
 
 Often you want to fetch an entry by a property other than `sys.id`.
