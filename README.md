@@ -346,6 +346,8 @@ as a direct property instead of having to resolve the image manually:
 </ul>
 ```
 
+Due to how the Contentful API works, linked content is only available when using `contentful-entries`, not when using `contentful-entry`. [Read more details here](https://github.com/jvandemo/angular-contentful/issues/11#issuecomment-140298861).
+
 #### Notice
 
 Resolving links hierarchically can cause circular links.
