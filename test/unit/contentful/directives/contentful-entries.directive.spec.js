@@ -43,8 +43,7 @@ describe('contentfulEntries directive', function () {
 
     // Define a fake module so we can configure the provider
     // before injecting the service
-    var fakeModule = angular.module('fakeModule', function () {
-    });
+    var fakeModule = angular.module('fakeModule', []);
     fakeModule.config(function (_contentfulProvider_) {
       contentfulProvider = _contentfulProvider_;
       contentfulProvider.setOptions(customOptions);
