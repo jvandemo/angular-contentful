@@ -2,6 +2,8 @@
 
 AngularJS module to easily access the [Contentful](https://www.contentful.com) [content delivery API](https://www.contentful.com/developers/documentation/content-delivery-api/):
 
+![angular-contentful](https://cloud.githubusercontent.com/assets/1859381/10281579/b8b29e38-6b75-11e5-8975-7732c9533487.png)
+
 [![Build Status](https://travis-ci.org/jvandemo/angular-contentful.svg?branch=master)](https://travis-ci.org/jvandemo/angular-contentful)
 
 - lightweight (< 3KB minified)
