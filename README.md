@@ -24,6 +24,12 @@ First install the module using bower:
 $ bower install angular-contentful
 ```
 
+or npm:
+
+```bash
+$ npm install angular-contentful
+```
+
 and add the library to your application:
 
 ```xml
