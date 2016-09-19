@@ -36,6 +36,8 @@ and add the library to your application:
 <script type="text/javascript" charset="utf-8" src="bower_components/angular-contentful/dist/angular-contentful.min.js"></script>
 ```
 
+> The `src` attribute value above is an example when using `bower`. Your local library path may vary depending on whether you used `bower` or `npm` as your installation method and whether or not you have a build process in place.
+
 Then add the `contentful` module to the dependencies of your AngularJS application module:
 
 ```javascript
