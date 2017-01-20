@@ -348,7 +348,7 @@ Suppose you have a collection of dogs that have an image linked to them, you can
 as a direct property instead of having to resolve the image manually:
 
 ```xml
-<ul contentful-entries="content_type=dog">
+<ul contentful-entries="'content_type=dog'">
   <li ng-repeat="dog in $contentfulEntries.items | orderBy:'fields.name' ">
     <h1>{{ dog.fields.name }}</h2>
     <img ng-src="{{ dog.fields.image.fields.file.url }}" />
