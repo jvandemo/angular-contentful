@@ -6,6 +6,7 @@
     "email": "jurgen.van.de.moere@gmail.com"
   },
   "main": "dist/angular-contentful.js",
+  "module": "dist/angular-contentful.js",
   "scripts": {
     "test": "gulp test-dist-minified"
   },
