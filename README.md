@@ -515,6 +515,10 @@ $ gulp test-dist-minified
 
 ## Change log
 
+### v2.1.0
+
+- Added module property to package.json for webpack compatibility
+
 ### v2.0.0
 
 - **BREAKING CHANGE**: Added support for specifying expressions in directive attributes
