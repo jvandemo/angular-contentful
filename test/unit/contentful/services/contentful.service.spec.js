@@ -77,9 +77,9 @@ describe('Contentful service', function () {
       });
 
       it('should contain custom options passed to provider using setOptions()', function () {
-        expect(contentful.options.space).to.equal(customOptions.space);
-        expect(contentful.options.accessToken).to.equal(customOptions.accessToken);
-        expect(contentful.options.secure).to.equal(customOptions.secure);
+        expect(contentful.options['default'].space).to.equal(customOptions.space);
+        expect(contentful.options['default'].accessToken).to.equal(customOptions.accessToken);
+        expect(contentful.options['default'].secure).to.equal(customOptions.secure);
       });
 
     });

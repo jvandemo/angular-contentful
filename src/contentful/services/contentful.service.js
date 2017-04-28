@@ -22,7 +22,7 @@
      * @returns {contentfulProvider}
      */
     this.setOptions = function (newOptions) {
-      if (newOptions.space) {
+      if (newOptions && newOptions.space) {
         angular.extend(options['default'], newOptions);
       } else {
         angular.extend(options, newOptions);
