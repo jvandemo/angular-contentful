@@ -457,6 +457,17 @@
     };
 
     /**
+     * Perform sync
+     *
+     * @returns {promise}
+     */
+    Contentful.prototype.sync = function (querystring) {
+      return this.processResponseWithSyncMultipleEntries(
+        this.request('/sync', configifyParams(paramifyQuerystring(querystring)))
+      );
+    };
+
+    /**
      * Process multiple incoming entries
      *
      * Resolves links in the response.data.
@@ -475,6 +486,58 @@
               limit: response.data.limit,
               skip: response.data.skip,
               total: response.data.total
+            };
+            entries.items = self._contentfulHelpers.resolveResponse(response.data);
+            response.data = entries;
+            return response;
+          },
+
+          // Forward error on failure
+          function(response){
+            return response;
+          }
+        );
+      }
+      return promise;
+    };
+
+    /**
+     * Process multiple incoming entries from a sync call
+     *
+     * Resolves links in the response.data.
+     *
+     * @param promise
+     * @returns {*}
+     */
+    Contentful.prototype.processResponseWithSyncMultipleEntries = function(promise){
+      var self = this;
+      if(promise && promise.then){
+        promise.then(
+
+          // Automatically resolve links on success
+          function(response){
+
+            var nextPageToken, nextSyncToken, components;
+            if (response.data.nextPageUrl !== undefined) {
+              components = response.data.nextPageUrl.split('sync_token=');
+              if (components.length > 1) {
+                components = components[1].split('&');
+                nextPageToken = components[0];
+              }
+            } else if (response.data.nextSyncUrl !== undefined) {
+              components = response.data.nextSyncUrl.split('sync_token=');
+              if (components.length > 1) {
+                components = components[1].split('&');
+                nextSyncToken = components[0];
+              }
+            }
+
+            var entries = {
+              limit: response.data.limit,
+              skip: response.data.skip,
+              total: response.data.total,
+              nextPageToken: nextPageToken,
+              nextSyncToken: nextSyncToken
             };
             entries.items = self._contentfulHelpers.resolveResponse(response.data);
             response.data = entries;
