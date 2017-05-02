@@ -56,6 +56,28 @@ angular
     });
   });
 ```
+
+Also, in case you need to use more than one Contentful space you can initialize provider as following:
+
+```javascript
+angular
+  .module('yourApp')
+  .config(function(contentfulProvider){
+    contentfulProvider.setOptions({
+        'default': {
+          space: 'first_space',
+          accessToken: 'first_token'
+        },
+        'another': {
+          space: 'second_space',
+          accessToken: 'second_token'
+        }
+        ...
+    });
+  });
+```
+
+
  
 Now you can use one of the directives to fetch Contentful data right from within your markup:
 
