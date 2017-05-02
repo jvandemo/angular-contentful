@@ -77,7 +77,7 @@ angular
   });
 ```
 
-
+If you initialize `contentfulProvider` with only one set of options it will be assumed that set is `default`.
  
 Now you can use one of the directives to fetch Contentful data right from within your markup:
 
