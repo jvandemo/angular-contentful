@@ -77,7 +77,7 @@ angular
   });
 ```
 
-
+If you initialize `contentfulProvider` with only one set of options it will be assumed that set is `default`.
  
 Now you can use one of the directives to fetch Contentful data right from within your markup:
 
@@ -251,6 +251,15 @@ Get an asset.
 - **id** - {string} - Asset id, required
 - **optionSet** - {string} - optional - Contentful space options key passed to `setOptions` method of provider. Defaults to `default` key, or if only one space settings are passed it will use that one.
 
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.asset(id, 'another');
+// or you can pass 'default', although it will implicitly use this key
+contentful.asset(id, 'default');
+```
+
 ##### Returns
 
 Promise.
@@ -263,6 +272,15 @@ Get assets.
 
 - **queryString** - {string} - Query string to pass to API, optional
 - **optionSet** - {string} - optional - Contentful space options key passed to `setOptions` method of provider. Defaults to `default` key, or if only one space settings are passed it will use that one.
+
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.assets(queryString, 'another');
+// or you can pass 'default', although it will implicitly use this key
+contentful.assets(queryString, 'default');
+```
 
 ##### Returns
 
@@ -277,6 +295,15 @@ Get a content type.
 - **id** - {string} - Content type id, required
 - **optionSet** - {string} - optional - Contentful space options (one of keys passed to setOptions method of provider). If not passed it will use `default` key, or if only one space settings are passed it will use that one.
 
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.contentType(id, 'another');
+// or you can pass 'default', although it will implicitly use this key
+contentful.contentType(id, 'default');
+```
+
 ##### Returns
 
 Promise.
@@ -289,6 +316,15 @@ Get content types.
 
 - **queryString** - {string} - Query string to pass to API, optional
 - **optionSet** - {string} - optional - Contentful space options key passed to `setOptions` method of provider. Defaults to `default` key, or if only one space settings are passed it will use that one.
+
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.contentTypes(queryString, 'another');
+// or you can pass 'default', although it will implicitly use this key if parameter is omitted
+contentful.contentTypes(queryString, 'default');
+```
 
 ##### Returns
 
@@ -303,6 +339,15 @@ Get an entry.
 - **id** - {string} - Entry id, required
 - **optionSet** - {string} - optional - Contentful space options key passed to `setOptions` method of provider. Defaults to `default` key, or if only one space settings are passed it will use that one.
 
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.entry(id, 'another');
+// or you can pass 'default', although it will implicitly use this key if parameter is omitted
+contentful.entry(id, 'default');
+```
+
 ##### Returns
 
 Promise.
@@ -316,6 +361,15 @@ Get entries.
 - **queryString** - {string} - Query string to pass to API, optional
 - **optionSet** - {string} - optional - Contentful space options key passed to `setOptions` method of provider. Defaults to `default` key, or if only one space settings are passed it will use that one.
 
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.entries(queryString, 'another');
+// or you can pass 'default', although it will implicitly use this key if parameter is omitted
+contentful.entries(queryString, 'default');
+```
+
 ##### Returns
 
 Promise.
@@ -327,6 +381,15 @@ Get space.
 ##### Arguments
 
 - **optionSet** - {string} - optional - Contentful space options key passed to `setOptions` method of provider. Defaults to `default` key, or if only one space settings are passed it will use that one.
+
+###### Example 
+
+```javascript
+// pass key defined in setOptions method of provider
+contentful.space('another');
+// or you can pass 'default', although it will implicitly use this key if parameter is omitted
+contentful.space('default');
+```
 
 ##### Returns
 
