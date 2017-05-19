@@ -56,28 +56,6 @@ angular
     });
   });
 ```
-
-Also, in case you need to use more than one Contentful space you can initialize provider as following:
-
-```javascript
-angular
-  .module('yourApp')
-  .config(function(contentfulProvider){
-    contentfulProvider.setOptions({
-        'default': {
-          space: 'first_space',
-          accessToken: 'first_token'
-        },
-        'another': {
-          space: 'second_space',
-          accessToken: 'second_token'
-        }
-        ...
-    });
-  });
-```
-
-If you initialize `contentfulProvider` with only one set of options it will be assumed that set is `default`.
  
 Now you can use one of the directives to fetch Contentful data right from within your markup:
 
@@ -455,6 +433,59 @@ Resolving links hierarchically can cause circular links.
 
 Although this isn't harmful, it may hamper you from outputting the entire response e.g. using `{{ $contentfulEntries | json }}`.
 
+## Connecting to multiple spaces
+
+If you need to connect to more than one Contentful space, you can specify additional spaces in the `contentfulProvider` configuration:
+
+```javascript
+angular
+  .module('yourApp')
+  .config(function(contentfulProvider){
+    contentfulProvider.setOptions({
+        'default': {
+          space: 'first_space',
+          accessToken: 'first_token'
+        },
+        'another': {
+          space: 'second_space',
+          accessToken: 'second_token'
+        }
+        ...
+    });
+  });
+```
+
+and pass in the space key as the `optionSet` argument when calling a contentful service method:
+
+```javascript
+angular
+  .module('yourApp')
+  .controller('SomeCtrl', function(contentful){
+    
+    // Get all entries
+    contentful
+      .entries('', 'another')
+      .then(
+      
+        // Success handler
+        function(response){
+          var entries = response.data;
+          console.log(entries);
+        },
+        
+        // Error handler
+        function(response){
+          console.log('Oops, error ' + response.status);
+        }
+      );
+    
+  });
+```
+
+If you initialize `contentfulProvider` with only one set of options, it will be treated as the default one.
+
+Currently, the directives do not allow you to specify a space and will always connect to the default space.
+
 ## Example raw Contentful responses
 
 These raw response examples give you an idea of what original
@@ -605,6 +636,10 @@ $ gulp test-dist-minified
 ```
 
 ## Change log
+
+### v2.2.0
+
+- Added support for multiple spaces [#24](https://github.com/jvandemo/angular-contentful/pull/24) (credits to [Vuk Stanković](https://github.com/vuk))
 
 ### v2.1.0
 
