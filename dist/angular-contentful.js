@@ -292,10 +292,12 @@
 
     // Default options
     var options = {
-      host: 'cdn.contentful.com',
-      space: null,
-      accessToken: null,
-      secure: true
+      'default': {
+        host: 'cdn.contentful.com',
+        space: null,
+        accessToken: null,
+        secure: true
+      }
     };
 
     /**
@@ -305,7 +307,11 @@
      * @returns {contentfulProvider}
      */
     this.setOptions = function (newOptions) {
-      angular.extend(options, newOptions);
+      if (newOptions && newOptions.space) {
+        angular.extend(options['default'], newOptions);
+      } else {
+        angular.extend(options, newOptions);
+      }
       return this;
     };
 
@@ -349,10 +355,11 @@
      *
      * @param {string} path
      * @param {object} config
+     * @param {object} optionSet
      * @returns {promise}
      */
-    Contentful.prototype.request = function (path, config) {
-
+    Contentful.prototype.request = function (path, config, optionSet) {
+      optionSet = optionSet || 'default';
       var url;
       var nonEmptyParams = {};
 
@@ -363,17 +370,17 @@
 
       // Add required configuration
       config.headers['Content-Type'] = 'application/vnd.contentful.delivery.v1+json';
-      config.params['access_token'] = this.options.accessToken;
+      config.params['access_token'] = this.options[optionSet].accessToken;
 
       // Build url
       url = [
-        this.options.secure ? 'https' : 'http',
+        this.options[optionSet].secure ? 'https' : 'http',
         '://',
-        this.options.host,
+        this.options[optionSet].host,
         ':',
-        this.options.secure ? '443' : '80',
+        this.options[optionSet].secure ? '443' : '80',
         '/spaces/',
-        this.options.space,
+        this.options[optionSet].space,
         path
       ].join('');
 
@@ -385,21 +392,25 @@
      * Get an asset
      *
      * @param id
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.asset = function (id) {
-      return this.request('/assets/' + id);
+    Contentful.prototype.asset = function (id, optionSet) {
+      optionSet = optionSet || 'default';
+      return this.request('/assets/' + id, {}, optionSet);
     };
 
     /**
      * Get assets
      *
      * @param query
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.assets = function (querystring) {
+    Contentful.prototype.assets = function (querystring, optionSet) {
+      optionSet = optionSet || 'default';
       return this.processResponseWithMultipleEntries(
-        this.request('/assets', configifyParams(paramifyQuerystring(querystring)))
+        this.request('/assets', configifyParams(paramifyQuerystring(querystring)), optionSet)
       );
     };
 
@@ -407,21 +418,25 @@
      * Get content type
      *
      * @param id
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.contentType = function (id) {
-      return this.request('/content_types/' + id);
+    Contentful.prototype.contentType = function (id, optionSet) {
+      optionSet = optionSet || 'default';
+      return this.request('/content_types/' + id, {}, optionSet);
     };
 
     /**
      * Get content types
      *
      * @param query
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.contentTypes = function (querystring) {
+    Contentful.prototype.contentTypes = function (querystring, optionSet) {
+      optionSet = optionSet || 'default';
       return this.processResponseWithMultipleEntries(
-        this.request('/content_types', configifyParams(paramifyQuerystring(querystring)))
+        this.request('/content_types', configifyParams(paramifyQuerystring(querystring)), optionSet)
       );
     };
 
@@ -429,31 +444,37 @@
      * Get entry
      *
      * @param id
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.entry = function (id) {
-      return this.request('/entries/' + id);
+    Contentful.prototype.entry = function (id, optionSet) {
+      optionSet = optionSet || 'default';
+      return this.request('/entries/' + id, {}, optionSet);
     };
 
     /**
      * Get entries
      *
      * @param query
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.entries = function (querystring) {
+    Contentful.prototype.entries = function (querystring, optionSet) {
+      optionSet = optionSet || 'default';
       return this.processResponseWithMultipleEntries(
-        this.request('/entries', configifyParams(paramifyQuerystring(querystring)))
+        this.request('/entries', configifyParams(paramifyQuerystring(querystring)), optionSet)
       );
     };
 
     /**
      * Get space
      *
+     * @param optionSet {object}
      * @returns {promise}
      */
-    Contentful.prototype.space = function () {
-      return this.request('');
+    Contentful.prototype.space = function (optionSet) {
+      optionSet = optionSet || 'default';
+      return this.request('', {}, optionSet);
     };
 
     /**
