@@ -86,8 +86,18 @@ Now you can use one of the directives to fetch Contentful data right from within
   {{ $contentfulEntry | json }}
 </pre>
 ```
+
+Or if you use multiple spaces or option sets you can optionally specify what option set you want to use
+
+```xml
+<pre contentful-entry="'6KntaYXaHSyIw8M6eo26OK'" option-set="someOptions">
+  {{ $contentfulEntry | json }}
+</pre>
+```
+
+If option-set parameter isn't provided it will default to `default` key.
  
-or you can use the `contentful` service anywhere in your application code:
+Also you can use the `contentful` service anywhere in your application code:
 
 ```javascript
 angular
