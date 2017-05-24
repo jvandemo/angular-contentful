@@ -14,6 +14,11 @@
   function ContentfulDirectiveCtrl($scope, $attrs, contentful, contentfulHelpers) {
 
     var query;
+    var optionSet;
+
+    if ($attrs.contentfulEntry) {
+      optionSet = $scope.$eval($attrs.optionSet);
+    }
 
     // Passed value is required entry id
     if ($attrs.contentfulEntry) {
@@ -26,7 +31,7 @@
 
         // Fetch entry by query
         contentful
-          .entries(query)
+          .entries(query, optionSet)
           .then(
             function (response) {
               var firstEntry = {};
@@ -44,7 +49,7 @@
 
         // Fetch entry by id
         contentful
-          .entry(query)
+          .entry(query, optionSet)
           .then(
           function (response) {
             $scope.$contentfulEntry = response.data;
@@ -64,7 +69,7 @@
       query = $scope.$eval($attrs.contentfulEntries);
 
       contentful
-        .entries(query)
+        .entries(query, optionSet)
         .then(
           function (response) {
             $scope.$contentfulEntries = response.data;
