@@ -443,10 +443,12 @@ angular
   .config(function(contentfulProvider){
     contentfulProvider.setOptions({
         'default': {
+          host: 'cdn.contentful.com',
           space: 'first_space',
           accessToken: 'first_token'
         },
         'another': {
+          host: 'cdn.contentful.com',
           space: 'second_space',
           accessToken: 'second_token'
         }
