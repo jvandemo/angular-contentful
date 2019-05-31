@@ -96,6 +96,8 @@
         this.options[optionSet].secure ? '443' : '80',
         '/spaces/',
         this.options[optionSet].space,
+        this.options.environment ? '/environments/': '',
+        this.options.environment ? this.options.environment: '',
         path
       ].join('');
 
