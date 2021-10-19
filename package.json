@@ -5,6 +5,10 @@
     "name": "Jurgen Van de Moere",
     "email": "jurgen.van.de.moere@gmail.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jvandemo/angular-contentful.git"
+  },
   "main": "dist/angular-contentful.js",
   "module": "dist/angular-contentful.js",
   "scripts": {
